@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Power NOP Analyzer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* background: #f4f6f8; */
+            background: radial-gradient(circle at center, rgba(97, 178, 255, 0.3), #f4f6f8 70%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 26px;
+            color: #333;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 15px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background: linear-gradient(to right, #f0f4ff, #ffffff);
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        input[type="file"]:hover {
+            background: linear-gradient(to right, #e0eaff, #f9f9ff);
+            border-color: #6c9cfa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Welcome to Your Daily Power NOP Analyzer</h1>
+    <h4>Upload Your CSVs to Uncover the Trends 🔍</h4>
+
+    <form method="POST" action="/generate" enctype="multipart/form-data">
+        <label for="csv1">Upload CSV - Date 1:</label>
+        <input type="file" name="csv1" id="csv1" accept=".csv" required>
+
+        <label for="csv2">Upload CSV - Date 2:</label>
+        <input type="file" name="csv2" id="csv2" accept=".csv" required>
+
+
+        <button type="submit">Generate Report</button>
+    </form>
+
+</body>
+</html>

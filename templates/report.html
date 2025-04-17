@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily NOP Dashboard</title>
+  <style>
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f4f6f8, #e6f0fc);
+      margin: 0;
+      padding: 30px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1a237e;
+      margin-bottom: 30px;
+      font-size: 1.8em;
+    }
+
+    .card-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      padding: 25px;
+      border-width: 2px;
+      margin-bottom: 40px;
+    }
+
+    .card-row img {
+      height: 120px;
+      border-radius: 10px;
+      transition: transform 0.2s ease;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-row img:hover {
+      transform: scale(1.05);
+    }
+
+    .report-section {
+      margin-bottom: 30px;
+    }
+
+    .highlight-box {
+      text-align: center;
+      font-size: 16px;
+      background-color: #ddf2ff;
+      padding: 18px;
+      border-radius: 10px;
+      border-left: 6px solid #2196f3;
+      border-right: 6px solid #2196f3;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .summary-box {
+      background-color: #fff;
+      padding: 20px;
+      border-left: 6px solid #ffa726;
+      border-right: 6px solid #ffa726;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .summary-box.alert {
+      border-left: 6px solid #ef5350;
+      border-right: 6px solid #ef5350;
+      background-color: #fff5f5;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(239, 83, 80, 0.2);
+      position: relative;
+      overflow: hidden;
+      padding: 20px 20px 20px 60px;
+      text-align: center;
+    }
+
+    .summary-box.alert::before {
+      content: "⚠️";
+      font-size: 26px;
+      position: absolute;
+      left: 20px;
+      top: 22px;
+      animation: pulseIcon 1.5s infinite ease-in-out;
+    }
+
+    .summary-box.alert h3 {
+      color: #c62828;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    @keyframes pulseIcon {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .summary-box h3 {
+      margin-top: 0;
+      color: #37474f;
+      font-size: 1.2em;
+    }
+
+    .summary-box a {
+      color: #1565c0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .summary-box a:hover {
+      text-decoration: underline;
+    }
+
+    .plot-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .plot-container img {
+      max-width: 600px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #fafafa;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .heatmap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 25px;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    .heatmap img {
+      display: block;
+      margin: 0 auto 50px;
+      border-radius: 10px;
+      padding: 10px;
+      background: #f4f4f4;
+      border: 1px solid #ccc;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 1.3em;
+      color: #2c3e50;
+    }
+
+    .two-column {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+  }
+
+  .two-column img {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+
+  .two-column h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #444;
+  }
+
+  @media (max-width: 800px) {
+    .two-column {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .two-column > div {
+      width: 90%;
+    }
+  }
+
+  .report-pair {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .report-pair > .highlight-box,
+  .report-pair > .summary-box {
+      flex: 1 1 400px;
+      max-width: 600px;
+      height: 120px !important;
+    }
+
+    .table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background-color: #ffffff;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.summary-table thead {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.summary-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.summary-table td.positive {
+  color: #15803d;
+  font-weight: 500;
+}
+
+.summary-table td.negative {
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+#download-btn {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#download-btn:hover {
+  background-color: #0056b3;
+}
+
+
+
+  </style>
+</head>
+
+<body>
+  <h1>Daily Net Open Position (NOP) Dashboard</h1>
+
+  <div class="card-row">
+    <img src="{{ url_for('static', filename=nop_volume_card_path.split('static/')[1]) }}" alt="NOP Volume" />
+    <img src="{{ delta_volume_card_path }}" alt="Delta Volume" />
+    <img src="{{ market_value_card_path }}" alt="Market Value" />
+    <img src="{{ delta_market_card_path }}" alt="Delta Market Value" />
+  </div>
+
+  <div class="report-pair">
+    <div class="highlight-box" >
+      {{ highlight_text | safe }}
+    </div>
+  
+    <div class="summary-box alert" role="alert" aria-live="polite">
+      <h3>🚨 Threshold Breach Alert – NOP Volume</h3>
+      {% if threshold_alerts %}
+      <div id="threshold-summary-short">
+        <p>{{ threshold_alerts_short | safe }}</p>
+        {% if threshold_alerts_full %}
+        <a href="#" onclick="toggleThreshold(event)">Read more</a>
+        {% endif %}
+      </div>
+      <div id="threshold-summary-full" style="display: none;">
+        <p>{{ threshold_alerts_full | safe }}</p>
+        <a href="#" onclick="toggleThreshold(event)">Show less</a>
+      </div>
+      {% else %}
+      <p style="color: #2e7d32;">✅ No significant breaches. All Segments are within stable limits.</p>
+      {% endif %}
+    </div>
+  </div>
+  
+
+
+  <div class="summary-box">
+    <h3 class="summary-heading">📦 Significant BOOK-Level Changes in VOLUME_BL</h3>
+  
+    <!-- Short Table (Top 4 rows) -->
+    <div id="volume-summary-short" class="summary-content">
+      <div class="table-wrapper">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Segment</th>
+              <th>BOOK</th>
+              {% if include_horizon %}
+              <th>Horizon</th>
+              {% endif %}
+              <th>Delta %</th>
+              <th>Delta (Units)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ short_volume_table | safe }}
+          </tbody>
+        </table>
+      </div>
+      {% if full_volume_table %}
+      <a href="#" class="toggle-link" onclick="toggleSummary(event)">Read more ⬎</a>
+      {% endif %}
+    </div>
+  
+    <!-- Full Table -->
+    <div id="volume-summary-full" class="summary-content hidden">
+      <div class="table-wrapper">
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th>Segment</th>
+              <th>BOOK</th>
+              {% if include_horizon %}
+              <th>Horizon</th>
+              {% endif %}
+              <th>Delta %</th>
+              <th>Delta (Units)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ full_volume_table | safe }}
+          </tbody>
+        </table>
+      </div>
+      <a href="#" class="toggle-link" onclick="toggleSummary(event)">Show less ⬏</a>
+    </div>
+  </div>
+  
+  
+  
+
+  <div class="plot-container">
+    {% for plot in plot_paths %}
+    <img src="{{ url_for('static', filename=plot.split('static/')[1]) }}" alt="Plot" />
+    {% endfor %}
+  </div>
+
+  <div class="two-column">
+    <div>
+      <h2>Top 5 BOOKs by Δ Market Value (MKT_VAL_BL)</h2>
+      <img src="{{ url_for('static', filename=top5_books_plot) }}" alt="Top 5 Books by Delta" />
+    </div>
+    <div>
+      <h2>Top 5 Movers by Segment | BOOK (Δ Market Value)</h2>
+      <img src="{{ url_for('static', filename=top5_segment_book_plot) }}" alt="Top 5 Segment-Book Movers" />
+    </div>
+  </div>
+
+  <h2>📌 Segment × Horizon Heatmap</h2>
+  <div class="heatmap">
+    <img src="{{ url_for('static', filename=segment_horizon_heatmap) }}" alt="Heatmap" />
+  </div>
+  <button id="download-btn" onclick="downloadDashboard()">Download Dashoard (.png)</button>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+  function downloadDashboard() {
+    const btn = document.getElementById('download-btn');
+    btn.style.display = 'none';
+
+    setTimeout(() => {
+      html2canvas(document.body).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'dashboard.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        btn.style.display = 'block';
+      });
+    }, 100);
+  }
+</script>
+<script>
+    function toggleSummary(event) {
+      event.preventDefault();
+      const short = document.getElementById("volume-summary-short");
+      const full = document.getElementById("volume-summary-full");
+  
+      const isShortVisible = short.style.display !== "none";
+  
+      short.style.display = isShortVisible ? "none" : "block";
+      full.style.display = isShortVisible ? "block" : "none";
+    }
+  
+    // Make sure the default state is clean on load
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("volume-summary-short").style.display = "block";
+      document.getElementById("volume-summary-full").style.display = "none";
+    });
+  </script>
+  
+  
+  
+</body>
+</html>
