@@ -555,28 +555,20 @@ def generate():
     # checking validity of files
     df1_cleaned = clean_nop_data(uploaded_files['csv1']['df'])
     df2_cleaned = clean_nop_data(uploaded_files['csv2']['df'])
-
     nop_volume_card_path = generate_nop_volume_card(df1_cleaned, df2_cleaned, uploaded_files['csv1']['filename'], uploaded_files['csv2']['filename'])
-
     delta_volume_card_path = generate_delta_volume_card(df1_cleaned, df2_cleaned, uploaded_files['csv1']['filename'], uploaded_files['csv2']['filename'])
-
     market_value_card_path = generate_market_value_card(df1_cleaned, df2_cleaned, uploaded_files['csv1']['filename'], uploaded_files['csv2']['filename'])
-
     delta_market_card_path = generate_delta_market_card(df1_cleaned, df2_cleaned, uploaded_files['csv1']['filename'], uploaded_files['csv2']['filename'])
-
     summary = get_exposure_hotspot(df1_cleaned, df2_cleaned)
     highlight_text = exposure_hotspot_report_text(summary)
     short_volume_table, full_volume_table, include_horizon = generate_ai_summary_for_volume_change(df1_cleaned, df2_cleaned)
     threshold_alerts_short, threshold_alerts_full = generate_threshold_breach_alerts(df1_cleaned, df2_cleaned)
-
-
     plot_paths = generate_volume_bl_trends(df1_cleaned, df2_cleaned)
     top5_books_plot = generate_top5_books_by_mkt_val_delta(df1_cleaned, df2_cleaned)
     top5_segment_book_plot = generate_top5_movers_by_segment_book(df1_cleaned, df2_cleaned)
     heatmap_filename = generate_segment_horizon_heatmap(df1_cleaned, df2_cleaned)
 
     print(heatmap_filename)
-
 
     return render_template(
     'report.html',
