@@ -2,20 +2,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-# Ensure plots folder exists
 os.makedirs("static/plots", exist_ok=True)
 
 def clean_and_prepare_data(df1, df2):
     df1.columns = df1.columns.str.strip()
     df2.columns = df2.columns.str.strip()
 
-    # Drop rows where VOLUME_BL is NaN
+    # Drops the rows where VOLUME_BL is NaN
     df1.dropna(subset=['VOLUME_BL'], inplace=True)
     df2.dropna(subset=['VOLUME_BL'], inplace=True)
-
-    # Optional: convert to integer if all values are whole numbers
-    df1['VOLUME_BL'] = df1['VOLUME_BL'].astype(int)
-    df2['VOLUME_BL'] = df2['VOLUME_BL'].astype(int)
 
     # Handle Report Date
     if 'Report Date' in df1.columns:
