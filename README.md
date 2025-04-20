@@ -16,8 +16,7 @@ A Flask-based web application to analyze and visualize changes in NOP (Net Open 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/power-nop-analyzer.git
-cd power-nop-analyzer
+git clone https://github.com/sudiptapradhan/csv-analysis
 ```
 ### 2. Create and Activate Virtual Environment
 ```bash
